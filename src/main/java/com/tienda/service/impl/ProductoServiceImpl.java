@@ -1,29 +1,38 @@
 package com.tienda.service.impl;
 
+
 import com.tienda.dao.ProductoDao;
 import com.tienda.domain.Producto;
 import com.tienda.service.ProductoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
-@Service
-public class ProductoServiceImpl implements ProductoService {
-
+public class ProductoServiceImpl implements ProductoService{
     @Autowired
     private ProductoDao productoDao;
+    
+    @Override
+    @Transactional (readOnly=true)
+    public List<Producto> getProductos(boolean activos) {
+      var lista = productoDao.findAll();
+        if(activos){
+            lista.removeIf(e -> !e.isActivo() );
+        }
+        return lista;        
+    }
 
+    
     @Override
     @Transactional(readOnly = true)
-    public List<Producto> getProductos(boolean activos) {
-        var lista = productoDao.findAll();
-        if(activos){
-            lista.removeIf(producto -> !producto.isActivo());
-        }
-        return lista;
+    public List<Producto> getProducto(Producto producto) {
+        return (List<Producto>) productoDao.findById(producto.getIdProducto()).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void save(Producto producto) {
+        productoDao.save(producto);
     }
 
     @Override
@@ -31,34 +40,20 @@ public class ProductoServiceImpl implements ProductoService {
     public void delete(Producto producto) {
         productoDao.delete(producto);
     }
+    // Lista de productos con precio entre pedidos por descripción ConsultaAmpliada
 
     @Override
-    @Transactional(readOnly = true)
-    public Producto getProducto(Long id) {
-        Optional<Producto> optionalProducto = productoDao.findById(id);
-        if(optionalProducto.isPresent()){
-            return optionalProducto.get();
-        } else {
-            throw new RuntimeException("No se encontró el producto con id: " + id);
-        }
-    }
-    @Override
-    public List<Producto> findAll() {
-        return productoDao.findAll();
-    }
-
-    @Override
-    public void save(Producto producto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Producto findById(Long idProducto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteById(Long idProducto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    @Transactional(readOnly=true)
+    public List<Producto> findByPrecioBetweenOrderByDescripcion(double precioInf, double precioSup) {
+        return productoDao.findByPrecioBetweenOrderByDescripcion(precioInf, precioSup);
 }
+
+    @Override
+    @Transactional(readOnly=true)    
+    public List<Producto> metodoJPQL(double precioInf, double precioSup) {
+        return productoDao.metodoJPQL(precioInf, precioSup);
+    }
+
+    
+}
+
