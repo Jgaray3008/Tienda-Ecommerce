@@ -1,0 +1,45 @@
+<!DOCTYPEhtml>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://wwww.hojadetomillo.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Tecnología</title>
+        <juego de caracteres meta="UTF-8"/>
+    </cabeza>
+    <cuerpo>
+        <header th:replace="~{layout/plantilla :: header}"/>
+        <div class="contenedor my-5">
+            <div class="row align-items-center">
+                <div clase="col-md-3"></div>
+                <div clase="col-md-6">
+                    <div clase="tarjeta">
+                        <div class="card-header bg-success"><h2>[[#{login.login}]]</h2></div>
+                        <div class="cuerpo-de-tarjeta">
+                            <formulario método="POST" th:acción="@{/login}">
+                                <div class="form-group fila my-3">
+                                    <label class="col-md-5 my-auto" for="username"><i class="fas fa-user-lock"></i>[[#{login.username}]]:</ etiqueta>
+                                    <div class="col-md-7 mi-auto">
+                                        <input class="form-control" type="text" name="username" id="username"/></div></div>
+                                <div class="form-group fila my-3">
+                                    <label class="col-md-5 my-auto" for="password"><i class="fas fa-key"></i>[[#{login.password}]]</label>
+                                    <div class="col-md-7 my-auto"><input class="form-control" type="contraseña" nombre="contraseña" id="contraseña"/></div></div>
+                                <div class="card-footer col text-center">
+                                    <button class="btn btn-primary" >
+                                        <a th:href="@{/registro/nuevo}" class="btn"><i class="fas fa-user-plus"></i> [[#{accion.registrar}]]</ a></botón>
+                                    <button class="btn btn-info" >                                        
+                                        <a th:href="@{/registro/recordar}" class="btn"><i class="fas fa-sobre"></i> [[#{accion.recordar}]]</a> </botón>
+                                    <button class="btn btn-success" type="enviar">
+                                        <span class="btn"><i class="fas fa-sign-in-alt"></i>
+                                            [[#{iniciar sesión.iniciar sesión}]]</span></button>
+                                </div>
+                            </formulario>                            
+                        </div>
+                    </div>
+                    <div th:if="${param.error != nulo}">
+                        <h3>[[#{error.iniciar sesión}]]</h3>
+                    </div>
+                </div>
+            </div>           
+        </div>
+        <footer th:replace="~{diseño/plantilla :: pie de página}"/>
+    </cuerpo>
+</html>

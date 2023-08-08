@@ -1,0 +1,15 @@
+<!DOCTYPEhtml>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.hojadetomillo.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Tecnología</title>
+    </cabeza>
+    <cuerpo>
+        <header th:replace="~{layout/plantilla :: header}"/>
+
+        <sección th:replace="~{pruebas/fragmentos ::filtros}"/>
+        <sección th:replace="~{pruebas/fragmentos :: listadoProductos}"/>
+
+        <footer th:replace="~{diseño/plantilla :: pie de página}"/>       
+    </cuerpo>
+</html>
