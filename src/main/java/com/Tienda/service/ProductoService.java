@@ -1,8 +1,10 @@
 package com.Tienda.service;
 
 import com.Tienda.domain.Producto;
-//import com.TiendaClase.domain.Categoria;
+
 import java.util.List;
+
+ 
 
 
 public interface ProductoService {
